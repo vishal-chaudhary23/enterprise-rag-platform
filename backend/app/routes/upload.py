@@ -17,6 +17,9 @@ async def upload_file(file: UploadFile = File(...)):
 
     chunks = create_chunks(documents)
 
+    for chunk in chunks:
+        chunk.metadata["filename"] = filename
+
     vectorstore = create_vector_store(chunks)
 
 

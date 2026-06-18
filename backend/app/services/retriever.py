@@ -15,3 +15,6 @@ retriever = vectorstore.as_retriever()
 
 def retrieve(query):
     return retriever.invoke(query)
+
+def get_vector_store():
+    return vectorstore
