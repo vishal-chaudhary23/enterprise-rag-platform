@@ -1,4 +1,9 @@
-import { useState } from "react";
+// import { useState } from "react";
+import { useState, useEffect } from "react";
+import UploadSection from "./components/UploadSection";
+import ChatInput from "./components/ChatInput";
+import ChatWindow from "./components/ChatWindow";
+import DocumentList from "./components/DocumentList";
 
 function App() {
   const [file, setFile] = useState(null);
@@ -11,6 +16,8 @@ function App() {
   const [documents, setDocuments] = useState([]);
 
   const [selectedDocs, setSelectedDocs] = useState([]);
+
+  const [loading, setLoading] = useState(false);
 
   const uploadFile = async () => {
     if (!file) {
@@ -35,10 +42,19 @@ function App() {
       setMessage(
         `Uploaded: ${data.filename}`
       );
-      setDocuments(prev => [
-        ...prev,
-        data.filename
-      ]);
+
+      setDocuments(prev => {
+
+        if (prev.includes(data.filename)) {
+          return prev;
+        }
+
+        return [
+          ...prev,
+          data.filename
+        ];
+
+      });
 
     } catch (error) {
       setMessage("Upload failed");
@@ -47,6 +63,8 @@ function App() {
 
   const askQuestion = async () => {
     if (!question) return;
+
+    setLoading(true);
 
     try {
       const response = await fetch(
@@ -79,6 +97,8 @@ function App() {
       ]);
     } catch (error) {
       setMessage("Failed to get response");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,16 +106,16 @@ function App() {
 
       if (selectedDocs.includes(doc)) {
 
-        setSelectedDocs(
-          selectedDocs.filter(
+        setSelectedDocs(prev =>
+          prev.filter(
             d => d !== doc
           )
         );
 
       } else {
 
-        setSelectedDocs([
-          ...selectedDocs,
+        setSelectedDocs(prev => [
+          ...prev,
           doc
         ]);
 
@@ -116,8 +136,8 @@ const deleteSelected = async () => {
 
     }
 
-    setDocuments(
-      documents.filter(
+    setDocuments(prev =>
+      prev.filter(
         doc => !selectedDocs.includes(doc)
       )
     );
@@ -130,95 +150,162 @@ const deleteSelected = async () => {
 
 };
 
-  return (
-    <div>
-      <h1>Enterprise RAG Platform</h1>
+useEffect(() => {
 
-      <input
-        type="file"
-        onChange={(e) =>
-          setFile(e.target.files[0])
-        }
-      />
+  const loadDocuments = async () => {
 
-      <button onClick={uploadFile}>
-        Upload
-      </button>
+    try {
 
-      <p>{message}</p>
+      const response = await fetch(
+        "http://127.0.0.1:8000/documents"
+      );
 
-      <h2>Documents</h2>
+      const data = await response.json();
 
-      <ul>
-        {documents.map((doc, index) => (
-          <li key={index}>
-            <input
-              type="checkbox"
-              checked={selectedDocs.includes(doc)}
-              onChange={() => toggleDocument(doc)}
-            />
+      setDocuments(data.documents);
 
-            {doc}
-          </li>
-        ))}
-      </ul>
-        <button
-          onClick={deleteSelected}
-        >
-          Delete Selected
-        </button>
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
+
+  loadDocuments();
+
+}, []);
+
+    return (
+      <div>
+
+        <h1>
+          Enterprise RAG Platform
+        </h1>
+
+        <hr />
+
+        <UploadSection
+          uploadFile={uploadFile}
+          setFile={setFile}
+          message={message}
+        />
+        
+        <hr />
+
+        <DocumentList
+          documents={documents}
+          selectedDocs={selectedDocs}
+          toggleDocument={toggleDocument}
+          deleteSelected={deleteSelected}
+        />
 
 
-            <hr />
+        <hr />
+        <ChatWindow
+          chatHistory={chatHistory}
+        />
 
-      <h2>Chat with PDF</h2>
-
-      <input
-        type="text"
-        value={question}
-        placeholder="Ask a question..."
-        onChange={(e) =>
-          setQuestion(e.target.value)
-        }
-      />
-
-      <button onClick={askQuestion}>
-        Ask
-      </button>
-
-    <div>
-  {chatHistory.map((msg, index) => (
-    <div key={index}>
-
-      <strong>
-        {msg.role === "user"
-          ? "You"
-          : "Assistant"}
-      </strong>
-
-      <p>{msg.content}</p>
-
-      {msg.role === "assistant" &&
-       msg.sources && (
-        <ul>
-          {msg.sources.map(
-            (source, i) => (
-              <li key={i}>
-                {source.source.split("/").pop()}
-                {" "}
-                (Page {source.page + 1})
-              </li>
-            )
-          )}
-        </ul>
-      )}
-
-    </div>
-  ))}
-</div>
+        <hr />
+        <ChatInput
+          question={question}
+          setQuestion={setQuestion}
+          askQuestion={askQuestion}
+          loading={loading}
+        />
 
       </div>
-  );
+    );
+
+//   return (
+//     <div>
+//       <h1>Enterprise RAG Platform</h1>
+
+//       <input
+//         type="file"
+//         onChange={(e) =>
+//           setFile(e.target.files[0])
+//         }
+//       />
+
+//       <button onClick={uploadFile}>
+//         Upload
+//       </button>
+
+//       <p>{message}</p>
+
+//       <h2>Documents</h2>
+
+//       <ul>
+//         {documents.map((doc, index) => (
+//           <li key={index}>
+//             <input
+//               type="checkbox"
+//               checked={selectedDocs.includes(doc)}
+//               onChange={() => toggleDocument(doc)}
+//             />
+
+//             {doc}
+//           </li>
+//         ))}
+//       </ul>
+//         <button
+//           onClick={deleteSelected}
+//         >
+//           Delete Selected
+//         </button>
+
+
+//             <hr />
+
+//       <h2>Chat with PDF</h2>
+
+//       <input
+//         type="text"
+//         value={question}
+//         placeholder="Ask a question..."
+//         onChange={(e) =>
+//           setQuestion(e.target.value)
+//         }
+//       />
+
+//       <button onClick={askQuestion}>
+//         Ask
+//       </button>
+
+//     <div>
+//   {chatHistory.map((msg, index) => (
+//     <div key={index}>
+
+//       <strong>
+//         {msg.role === "user"
+//           ? "You"
+//           : "Assistant"}
+//       </strong>
+
+//       <p>{msg.content}</p>
+
+//       {msg.role === "assistant" &&
+//        msg.sources && (
+//         <ul>
+//           {msg.sources.map(
+//             (source, i) => (
+//               <li key={i}>
+//                 {source.source.split("/").pop()}
+//                 {" "}
+//                 (Page {source.page + 1})
+//               </li>
+//             )
+//           )}
+//         </ul>
+//       )}
+
+//     </div>
+//   ))}
+// </div>
+
+//       </div>
+//   );
 }
 
 export default App;
