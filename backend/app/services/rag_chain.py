@@ -19,6 +19,9 @@ prompt = ChatPromptTemplate.from_template(
     Answer the user's question using only the
     provided context.
 
+    Conversation History:
+    {history}
+
     Context:
     {context}
 
@@ -30,12 +33,7 @@ prompt = ChatPromptTemplate.from_template(
     """
 )
 
-question_answer_chain = (
-    create_stuff_documents_chain(
-        llm,
-        prompt
-    )
-)
+question_answer_chain = ( create_stuff_documents_chain(llm,prompt) )
 
 rag_chain = create_retrieval_chain(
     retriever,

@@ -76,6 +76,8 @@ function App() {
           },
           body: JSON.stringify({
             question: question,
+            history: chatHistory
+            // history: chatHistory.slice(-10)
           }),
         }
       );
@@ -176,44 +178,62 @@ useEffect(() => {
 
 }, []);
 
+
+  const clearChat = () => {
+      setChatHistory([]);
+    };
+
     return (
-      <div>
+      <div className="min-h-screen bg-slate-400">
 
-        <h1>
-          Enterprise RAG Platform
-        </h1>
+        <div className="max-w-7xl mx-auto p-6">
 
-        <hr />
+            <h1 className="text-4xl font-bold mb-6 px-80">
+              Enterprise RAG Platform
+            </h1>
 
-        <UploadSection
-          uploadFile={uploadFile}
-          setFile={setFile}
-          message={message}
-        />
-        
-        <hr />
+            {/* <hr /> */}
 
-        <DocumentList
-          documents={documents}
-          selectedDocs={selectedDocs}
-          toggleDocument={toggleDocument}
-          deleteSelected={deleteSelected}
-        />
+            <div className="grid grid-cols-3 gap-6">
 
 
-        <hr />
-        <ChatWindow
-          chatHistory={chatHistory}
-        />
+              <div className="bg-white rounded-lg shadow p-4">
 
-        <hr />
-        <ChatInput
-          question={question}
-          setQuestion={setQuestion}
-          askQuestion={askQuestion}
-          loading={loading}
-        />
+                <UploadSection
+                  uploadFile={uploadFile}
+                  setFile={setFile}
+                  message={message}
+                />
+                
+                <hr />
 
+                <DocumentList
+                  documents={documents}
+                  selectedDocs={selectedDocs}
+                  toggleDocument={toggleDocument}
+                  deleteSelected={deleteSelected}
+                />
+
+              </div>
+
+                {/* <hr /> */}
+              <div className="col-span-2 bg-white rounded-lg shadow p-4">
+                <ChatWindow
+                  chatHistory={chatHistory}
+                  clearChat={clearChat}
+                />
+                <ChatInput
+                  question={question}
+                  setQuestion={setQuestion}
+                  askQuestion={askQuestion}
+                  loading={loading}
+                  />
+              </div>
+
+                {/* <hr /> */}
+
+            </div>
+        </div>
       </div>
     );
 

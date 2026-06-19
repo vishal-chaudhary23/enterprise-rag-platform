@@ -9,13 +9,24 @@ router = APIRouter()
 
 class ChatRequest(BaseModel):
     question : str
+    history: list = []
 
 @router.post("/chat")
 def chat(query:ChatRequest):
 
+    history_text = ""
+
+    for msg in query.history:
+
+        history_text += (
+            f"{msg['role']}: "
+            f"{msg['content']}\n"
+        )
+
     response = rag_chain.invoke(
         {
-            "input": query.question
+            "input": query.question,
+            "history": history_text
         }
     )
 
