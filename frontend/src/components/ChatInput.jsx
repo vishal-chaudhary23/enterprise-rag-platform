@@ -13,12 +13,12 @@ function ChatInput({
       
       <input
         className="
-        bg-gray-400
-        border
-        rounded-lg
-        px-4
+        bg-gray-400  
+        rounded-3xl
+        px-6
         py-3
         flex-1
+        border
         "
         type="text"
         value={question}
@@ -26,6 +26,11 @@ function ChatInput({
         onChange={(e) =>
           setQuestion(e.target.value)
         }
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            askQuestion();
+          }
+        }}
         />
 
       <button
@@ -36,7 +41,7 @@ function ChatInput({
         text-white
         px-4
         py-2
-        rounded-lg
+        rounded-xl
         hover:bg-blue-800
         "
         >

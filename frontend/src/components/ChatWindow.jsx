@@ -1,4 +1,17 @@
+import { useRef, useEffect } from "react";
+
+
 function ChatWindow({ chatHistory, clearChat }) {
+  
+    const bottomRef = useRef(null);
+  
+    useEffect(() => {
+      bottomRef.current?.scrollIntoView({
+        behavior: "smooth"
+      });
+    }, [chatHistory]);
+
+    
   if (chatHistory.length === 0) {
     return (
       <p className="text-gray-500">
@@ -40,7 +53,7 @@ function ChatWindow({ chatHistory, clearChat }) {
             <div key={index}
             className={
               msg.role === "user"
-                ? "bg-blue-100 p-3 rounded mb-2 ml-auto max-w-[70%] shadow-lg"
+                ? "bg-blue-100 p-3 rounded mb-2 ml-auto max-w-[70%] shadow-lg "
                 : "bg-gray-100 p-3 rounded-lg mb-2 max-w-[70%] shadow-lg"
               }>
 
@@ -75,6 +88,8 @@ function ChatWindow({ chatHistory, clearChat }) {
         )
       }
 
+
+      <div ref={bottomRef} />
     </div>
       </div>
   );
