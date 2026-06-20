@@ -14,11 +14,11 @@ function ChatInput({
       <input
         className="
         bg-gray-400  
+        border
         rounded-3xl
         px-6
         py-3
         flex-1
-        border
         "
         type="text"
         value={question}

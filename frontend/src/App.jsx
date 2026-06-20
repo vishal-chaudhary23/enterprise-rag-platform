@@ -188,7 +188,7 @@ useEffect(() => {
 
         <div className="max-w-7xl mx-auto p-6">
 
-            <h1 className="text-4xl font-bold mb-6 px-80">
+            <h1 className="text-5xl font-bold mb-6 text-center">
               Enterprise RAG Platform
             </h1>
 
@@ -205,7 +205,7 @@ useEffect(() => {
                   message={message}
                 />
                 
-                <hr />
+                <hr  className="border-2 border-gray-600 rounded"/>
 
                 <DocumentList
                   documents={documents}
