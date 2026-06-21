@@ -19,11 +19,15 @@ function App() {
 
   const [loading, setLoading] = useState(false);
 
+  const [uploading, setUploading] = useState(false);
+
   const uploadFile = async () => {
     if (!file) {
       setMessage("Please select a file");
       return;
     }
+
+    setUploading(true);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -58,6 +62,8 @@ function App() {
 
     } catch (error) {
       setMessage("Upload failed");
+    }finally {
+      setUploading(false);
     }
   };
 
@@ -203,6 +209,7 @@ useEffect(() => {
                   uploadFile={uploadFile}
                   setFile={setFile}
                   message={message}
+                  uploading={uploading}
                 />
                 
                 <hr  className="border-2 border-gray-600 rounded"/>

@@ -48,6 +48,7 @@ function DocumentList({
           py-2
           rounded
           mt-3
+          hover:bg-red-800
         "
       >
         Delete Selected

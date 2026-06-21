@@ -1,7 +1,8 @@
 function UploadSection({
   uploadFile,
   setFile,
-  message
+  message,
+  uploading
 }) {
   return (
     // <div>
@@ -25,14 +26,18 @@ function UploadSection({
       />
 
       <button onClick={uploadFile}
+        disabled={uploading}
        className="
-      bg-blue-600
-      text-white
-      px-4
-      py-1
-      rounded
-    ">
-        Upload
+          bg-blue-600
+          text-white
+          px-4
+          py-1
+          rounded
+          hover:bg-blue-800
+        ">
+         {uploading
+            ? "Uploading..."
+            : "Upload"}
       </button>
 
       <p className="mb-3 p-2">{message}</p>
