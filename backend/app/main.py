@@ -14,7 +14,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://enterprise-rag-platform-1mfcjdlel-code-cretaor.vercel.app"
+        "https://enterprise-rag-platform-e71v3nwyv-code-cretaor.vercel.app"
         ],
     allow_credentials=True,
     allow_methods=["*"],
