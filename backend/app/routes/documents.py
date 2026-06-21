@@ -2,6 +2,7 @@ from fastapi import APIRouter
 import os
 from app.services.retriever import get_vector_store
 
+
 router = APIRouter()
 
 UPLOAD_DIR = "uploads"

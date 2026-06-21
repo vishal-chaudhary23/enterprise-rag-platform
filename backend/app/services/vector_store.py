@@ -5,6 +5,9 @@ from app.services.embeddings import embeddings
 import os
 from dotenv import load_dotenv
 
+os.makedirs("data/chroma", exist_ok=True)
+
+
 load_dotenv()
 # os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
 
