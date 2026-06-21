@@ -6,6 +6,8 @@ from langchain.prompts import ChatPromptTemplate
 import os
 
 from app.services.retriever import retriever
+# from app.services.retriever import get_retriever
+
 
 load_dotenv()
 groq_api_key = os.getenv("GROQ_API_KEY")

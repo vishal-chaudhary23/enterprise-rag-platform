@@ -1,5 +1,6 @@
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
+from app.services.embeddings import embeddings
 
 import os
 from dotenv import load_dotenv
@@ -7,9 +8,9 @@ from dotenv import load_dotenv
 load_dotenv()
 # os.environ["HF_TOKEN"] = os.getenv("HF_TOKEN")
 
-embeddings = HuggingFaceEmbeddings(
-    model_name="all-MiniLM-L6-v2"
-)
+# embeddings = HuggingFaceEmbeddings(
+#     model_name="all-MiniLM-L6-v2"
+# )
 
 def create_vector_store(splits):
 
