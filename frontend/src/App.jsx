@@ -4,6 +4,7 @@ import UploadSection from "./components/UploadSection";
 import ChatInput from "./components/ChatInput";
 import ChatWindow from "./components/ChatWindow";
 import DocumentList from "./components/DocumentList";
+import { API_URL } from "./config";
 
 function App() {
   const [file, setFile] = useState(null);
@@ -34,7 +35,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/upload",
+        `${API_URL}/upload`,
         {
           method: "POST",
           body: formData,
@@ -74,7 +75,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/chat",
+        `${API_URL}/chat`,
         {
           method: "POST",
           headers: {
@@ -136,7 +137,7 @@ const deleteSelected = async () => {
     for (const doc of selectedDocs) {
 
       await fetch(
-        `http://127.0.0.1:8000/documents/${doc}`,
+        `${API_URL}/documents/${doc}`,
         {
           method: "DELETE"
         }
@@ -165,7 +166,7 @@ useEffect(() => {
     try {
 
       const response = await fetch(
-        "http://127.0.0.1:8000/documents"
+        `${API_URL}/documents`
       );
 
       const data = await response.json();
