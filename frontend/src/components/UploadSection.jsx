@@ -9,21 +9,45 @@ function UploadSection({
     <div className="space-y-4">
       <h2 className="font-bold">Upload PDF Here</h2>
 
-      <input
+      <label
+        className="
+          flex items-center justify-center
+          w-full h-20
+          rounded-2xl
+          border-2 border-dashed border-blue-300
+          bg-blue-50
+          hover:bg-blue-100
+          transition
+          cursor-pointer
+        "
+      >
+        <input
+          type="file"
+          className="hidden"
+          onChange={(e) =>
+            setFile(e.target.files[0])
+          }
+        />
+
+        <span>
+            Select PDF 📄 
+          </span>
+        </label>
+
+      {/* <input
 
         className="
         
         bg-gray-300
+        p-2
           rounded-lg
-          px-3
-          py-2
           hover:bg-gray-400"
 
         type="file"
         onChange={(e) =>
           setFile(e.target.files[0])
         }
-      />
+      /> */}
 
       <button onClick={uploadFile}
         disabled={uploading}
