@@ -19,8 +19,8 @@ llm = ChatGroq(model = "llama-3.3-70b-versatile", groq_api_key= groq_api_key)
 
 prompt = ChatPromptTemplate.from_template(
     """
-    Answer the user's question using only the
-    provided context.
+    You are a helpful assistant that answers
+    questions using only the provided context.
 
     Conversation History:
     {history}
@@ -31,8 +31,16 @@ prompt = ChatPromptTemplate.from_template(
     Question:
     {input}
 
-    If the answer is not present in the context,
-    say you don't know.
+    Instructions:
+    - Answer only using information found in the context.
+    - If the context does not contain the answer,
+      say: "I don't know based on the provided documents."
+    - Do not make up facts or use outside knowledge.
+    - If relevant, use the conversation history to
+      understand references such as "previous question"
+      or "that project".
+
+    Answer:
     """
 )
 
