@@ -211,6 +211,7 @@ useEffect(() => {
                   setFile={setFile}
                   message={message}
                   uploading={uploading}
+                  file={file}
                 />
                 
                 <hr  className="border-2 border-gray-600 rounded"/>

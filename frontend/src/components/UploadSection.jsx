@@ -2,6 +2,7 @@ function UploadSection({
   uploadFile,
   setFile,
   message,
+  file,
   uploading
 }) {
   return (
@@ -29,10 +30,12 @@ function UploadSection({
           }
         />
 
-        <span>
-            Select PDF 📄 
-          </span>
-        </label>
+       <span>
+          {file
+            ? `📄 ${file.name}`
+            : "📤 Select PDF"}
+        </span>
+      </label>
 
       {/* <input
 
